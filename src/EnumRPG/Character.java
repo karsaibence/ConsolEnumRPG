@@ -1,5 +1,7 @@
 package EnumRPG;
 
+import java.util.Random;
+
 public class Character {
     private Race race;
     private Class characterClass;
@@ -7,7 +9,7 @@ public class Character {
     private double damage;
     private double health;
     private double armor;
-    private double criticalHit;
+    private int criticalHit;
     private double haste;
     private String name;
 
@@ -36,7 +38,7 @@ public class Character {
     public double getArmor() {
         return armor;
     }
-    public double getCriticalHit() {
+    public int getCriticalHit() {
         return criticalHit;
     }
     public double getHaste() {
@@ -55,7 +57,7 @@ public class Character {
         this.armor = armor;
     }
 
-    public void setCriticalHit(double criticalHit) {
+    public void setCriticalHit(int criticalHit) {
         this.criticalHit = criticalHit;
     }
 
@@ -81,5 +83,19 @@ public class Character {
                 "\nArmor: " + armor +
                 "\nCrit: " + criticalHit +
                 "\nGyorsaság: " + haste;
+    }
+    public double getCharacterAttack(){
+        Random rnd = new Random();
+        double dmg =rnd.nextDouble(getDamage()*0.95,getDamage()*1.05);
+        return dmg;
+    }
+    public double criticalHit(double characterAutoDamage){
+        Random rnd = new Random();
+        int critChance = rnd.nextInt(0,100);
+        double critDamage=characterAutoDamage;
+        if(critChance<=getCriticalHit()){
+            critDamage =critDamage*2;
+        }
+        return critDamage;
     }
 }

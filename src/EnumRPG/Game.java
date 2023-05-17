@@ -12,5 +12,7 @@ public class Game {
 
         System.out.println(hero1.toString());
         System.out.println(hero2.toString());
+        System.out.println();
+
     }
 }
