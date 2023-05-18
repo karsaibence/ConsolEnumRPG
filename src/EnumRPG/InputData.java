@@ -97,4 +97,7 @@ public class InputData {
 
         return number;
     }
+    public void getContentTab(){
+        System.out.print("---------------");
+    }
 }

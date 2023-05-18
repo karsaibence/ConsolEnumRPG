@@ -11,8 +11,13 @@ public class Game {
         Character hero2 = new Character(input.getCharacterRace(),input.getCharacterClass(),characterName);
 
         System.out.println(hero1.toString());
-        System.out.println(hero2.toString());
-        System.out.println();
+        input.getContentTab();
+        input.getContentTab();
+        System.out.println("\n"+hero2.toString());
+
+        Combat combat = new Combat();
+
+        System.out.println("Winner: "+combat.fight(hero1, hero2).getName());
 
     }
 }

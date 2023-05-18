@@ -98,4 +98,8 @@ public class Character {
         }
         return critDamage;
     }
+    public double getCharacterFinalDamageWithArmorCalc(){
+        double finalDMG = criticalHit(getCharacterAttack());
+        return finalDMG-((getArmor()/2)*(finalDMG*0.01));
+    }
 }
