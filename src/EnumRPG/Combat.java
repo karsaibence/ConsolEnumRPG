@@ -3,46 +3,63 @@ package EnumRPG;
 import java.text.DecimalFormat;
 
 public class Combat {
-    InputData input = new InputData();
     private static final DecimalFormat df = new DecimalFormat("0.00");
     public Character fight(Character hero1,Character hero2){
-        Character dDefault=new Character(Race.DEFAULT,Class.DEFAULT,"hiba");
-        boolean isHit=false;
+
         int round = 1;
 
-        System.out.println(hero2.getName()+"Élete: "+hero2.getHealth());
-        System.out.println(hero1.getName()+"Élete: "+hero1.getHealth());
-        while(hero2.getHealth()>=0){
-            isHit=true;
+        Character attacker = determineFirstAttacker(hero1, hero2);
+        Character defender = (attacker == hero1) ? hero2 : hero1;
 
-            input.getContentTab();
-            System.out.print(" "+round+" ");
-            input.getContentTab();
-            System.out.println();
+        writeCharacterCurrentHealth(hero2);
+        System.out.println();
+        writeCharacterCurrentHealth(hero1);
+        System.out.println();
+
+        while(defender.getHealth()>=0){
+
+            printRoundHeader(round);
             round++;
 
-            if(hero1.getHealth()<=0){
-                return hero2;
-            }else if(hero2.getHealth()<=0){
-                return hero1;
+            double damage = attacker.getCharacterFinalDamageWithArmorCalc();
+            defender.setHealth(defender.getHealth()-damage);
+
+            writeCharacterCurrentHealth(defender);
+            System.out.print(" <-- ");
+            writeCharacterDamage(attacker,damage);
+
+            if(defender.getHealth()<=0){
+                return attacker;
             }
-            double damage = hero1.getCharacterFinalDamageWithArmorCalc();
-            hero2.setHealth(hero2.getHealth()-damage);
-            System.out.println(hero2.getName()+" Élete: "+ df.format(hero2.getHealth())+" <- "+hero1.getName()+" sebzése: "+
-                    df.format(damage));
-            while(hero1.getHealth()>=0 && isHit){
-                isHit=false;
-                if(hero1.getHealth()<=0){
-                    return hero2;
-                }else if(hero2.getHealth()<=0){
-                    return hero1;
-                }
-                damage = hero2.getCharacterFinalDamageWithArmorCalc();
-                hero1.setHealth(hero1.getHealth()-damage);
-                System.out.println(hero1.getName()+" Élete: "+ df.format(hero1.getHealth())+" <- "+hero2.getName()+" sebzése: "+
-                        df.format(damage));
-            }
+
+            Character temp = attacker;
+            attacker = defender;
+            defender = temp;
         }
-        return dDefault;
+        return new Character(Race.DEFAULT,Class.DEFAULT,"hiba");
+    }
+
+    private Character determineFirstAttacker(Character hero1, Character hero2) {
+        // Haste alapján döntés az attacker személyéről
+        if (hero1.getHaste() > hero2.getHaste()) {
+            return hero1;
+        } else if (hero1.getHaste() < hero2.getHaste()) {
+            return hero2;
+        } else {
+            // Azonos Haste esetén véletlenszerűen választunk
+            return Math.random() < 0.5 ? hero1 : hero2;
+        }
+    }
+
+    public void writeCharacterDamage(Character hero,double dmg){
+        System.out.println(hero.getName()+" sebzése: "+
+                df.format(dmg));
+    }
+    public void writeCharacterCurrentHealth(Character hero){
+        System.out.print(hero.getName() + " Élete: " + df.format(hero.getHealth()));
+    }
+    private void printRoundHeader(int round) {
+        System.out.print("\u001B[0m---------------|| " + round + " ||---------------");
+        System.out.println();
     }
 }

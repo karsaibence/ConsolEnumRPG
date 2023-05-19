@@ -8,13 +8,13 @@ public enum Race {
     GNOME(11,140,9,6,12),
     DWARF(8,160,11,5,7);
 
-    private int damage;
-    private int health;
-    private int armor;
-    private int crit;
-    private int haste;
+    private final double damage;
+    private final double health;
+    private final double armor;
+    private final int crit;
+    private final int haste;
 
-    Race(int damage, int health, int armor, int crit, int haste) {
+    Race(double damage, double health, double armor, int crit, int haste) {
         this.damage = damage;
         this.health = health;
         this.armor = armor;
@@ -22,15 +22,15 @@ public enum Race {
         this.haste = haste;
     }
 
-    public int getDamage() {
+    public double getDamage() {
         return damage;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
-    public int getArmor() {
+    public double getArmor() {
         return armor;
     }
 

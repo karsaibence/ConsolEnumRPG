@@ -8,13 +8,13 @@ public enum Class {
     ROGUE(40,575,30,20,55),
     PALADIN(55,680,45,8,35);
 
-    private int damage;
-    private int health;
-    private int armor;
-    private int crit;
-    private int haste;
+    private final double damage;
+    private final double health;
+    private final double armor;
+    private final int crit;
+    private final int haste;
 
-    Class(int damage, int health, int armor, int crit, int haste) {
+    Class(double damage, double health, double armor, int crit, int haste) {
         this.damage = damage;
         this.health = health;
         this.armor = armor;
@@ -22,15 +22,15 @@ public enum Class {
         this.haste = haste;
     }
 
-    public int getDamage() {
+    public double getDamage() {
         return damage;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
-    public int getArmor() {
+    public double getArmor() {
         return armor;
     }
 

@@ -3,14 +3,15 @@ package EnumRPG;
 import java.util.Random;
 
 public class Character {
-    private Race race;
-    private Class characterClass;
+    Random rnd = new Random();
+    private final Race race;
+    private final Class characterClass;
 
     private double damage;
     private double health;
     private double armor;
     private int criticalHit;
-    private double haste;
+    private final int haste;
     private String name;
 
     public Character(Race race, Class characterClass, String name) {
@@ -41,7 +42,7 @@ public class Character {
     public int getCriticalHit() {
         return criticalHit;
     }
-    public double getHaste() {
+    public int getHaste() {
         return haste;
     }
 
@@ -60,24 +61,18 @@ public class Character {
     public void setCriticalHit(int criticalHit) {
         this.criticalHit = criticalHit;
     }
-
-    public void setHaste(double haste) {
-        this.haste = haste;
-    }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     @Override
     public String toString() {
         return  "Faj: " + race +
                 "\nKaszt: " + characterClass +
                 "\nName: " + name +
+                "\n"+
                 "\nDamage: " + damage +
                 "\nÉlet: " + health +
                 "\nArmor: " + armor +
@@ -85,18 +80,17 @@ public class Character {
                 "\nGyorsaság: " + haste;
     }
     public double getCharacterAttack(){
-        Random rnd = new Random();
-        double dmg =rnd.nextDouble(getDamage()*0.95,getDamage()*1.05);
-        return dmg;
+        return rnd.nextDouble(getDamage()*0.95,getDamage()*1.05);
     }
     public double criticalHit(double characterAutoDamage){
-        Random rnd = new Random();
+
         int critChance = rnd.nextInt(0,100);
-        double critDamage=characterAutoDamage;
         if(critChance<=getCriticalHit()){
-            critDamage =critDamage*2;
+            System.out.print("\u001B[33m");
+            return characterAutoDamage * 2;
         }
-        return critDamage;
+        System.out.print("\u001B[0m");
+        return characterAutoDamage;
     }
     public double getCharacterFinalDamageWithArmorCalc(){
         double finalDMG = criticalHit(getCharacterAttack());
