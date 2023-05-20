@@ -1,16 +1,23 @@
 package EnumRPG;
 
-public class RageAbility extends Ability{
-    public RageAbility(String name) {
-        super(name);
-    }
+        public class RageAbility extends Ability {
+            @Override
+            public void useAbility(Character attacker, Character defender) {
+                int maxAbilityCount = 3;
+                double tempDamage = attacker.getDamage();
+                if (attacker.getAbilityCounter() < maxAbilityCount) {
+                    if (attacker.getHealth() < (attacker.getRace().getHealth() + attacker.getCharacterClass().getHealth())
+                            * 0.6) {
+                        double currentDamage = attacker.getDamage();
+                        double increasedDamage = currentDamage * 1.2;
+                        System.out.println(attacker.getName() + " belépett rage módba.");
+                        attacker.setDamage(increasedDamage);
 
-    @Override
-    public void useAbility(Character character) {
-        double currentDamage = character.getDamage();
-        double increasedDamage = currentDamage * 1.2;
-
-        character.setDamage(increasedDamage);
-        System.out.println(character.getName() + " Belépett Ragemódba. A következő 3 támadása 20%-kal nagyobb lesz.");
-    }
-}
+                        attacker.incrementAbilityCounter();
+                    }
+                } else {
+                    attacker.setDamage(tempDamage);
+                    System.out.println(attacker.getName() + " kilépett rage módból.");
+                }
+            }
+        }

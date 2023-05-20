@@ -4,12 +4,16 @@ import java.text.DecimalFormat;
 
 public class Combat {
     private static final DecimalFormat df = new DecimalFormat("0.00");
+    double attackerTempDamage;
     public Character fight(Character hero1,Character hero2){
 
         int round = 1;
 
+
         Character attacker = determineFirstAttacker(hero1, hero2);
         Character defender = (attacker == hero1) ? hero2 : hero1;
+
+        attackerTempDamage=attacker.getDamage();
 
         writeCharacterCurrentHealth(hero2);
         System.out.println();
@@ -20,6 +24,24 @@ public class Combat {
 
             printRoundHeader(round);
             round++;
+
+            if (attacker.getCharacterClass() == Class.WARRIOR && attacker.getHealth() < attacker.getHealth() * 0.6) {
+                Ability[] abilities = attacker.getCharacterClass().getAbilities();
+                for (Ability ability : abilities) {
+                    if (ability instanceof RageAbility) {
+                        ability.useAbility(attacker, defender);
+                        break;
+                    }
+                }
+            } else {
+                Ability[] abilities = attacker.getCharacterClass().getAbilities();
+                for (Ability ability : abilities) {
+                    if (ability instanceof RageAbility) {
+                        ability.useAbility(attacker, defender);
+                        break;
+                    }
+                }
+            }
 
             double damage = attacker.getCharacterFinalDamageWithArmorCalc();
             defender.setHealth(defender.getHealth()-damage);
@@ -59,7 +81,8 @@ public class Combat {
         System.out.print(hero.getName() + " Élete: " + df.format(hero.getHealth()));
     }
     private void printRoundHeader(int round) {
-        System.out.print("\u001B[0m---------------|| " + round + " ||---------------");
-        System.out.println();
+            System.out.print("\u001B[0m---------------|| " + round + " ||---------------");
+            System.out.println();
+
     }
 }

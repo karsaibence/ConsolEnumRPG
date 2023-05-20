@@ -1,5 +1,6 @@
 package EnumRPG;
 
+import java.util.List;
 import java.util.Random;
 
 public class Character {
@@ -12,8 +13,8 @@ public class Character {
     private double armor;
     private int criticalHit;
     private final int haste;
+    private int abilityCounter;
     private String name;
-
     public Character(Race race, Class characterClass, String name) {
         this.race = race;
         this.characterClass = characterClass;
@@ -23,6 +24,7 @@ public class Character {
         this.armor = race.getArmor()+characterClass.getArmor();
         this.criticalHit = race.getCrit()+characterClass.getCrit();
         this.haste = race.getHaste()+characterClass.getHaste();
+        this.abilityCounter = 0;
     }
     public Race getRace() {
         return race;
@@ -96,4 +98,12 @@ public class Character {
         double finalDMG = criticalHit(getCharacterAttack());
         return finalDMG-((getArmor()/2)*(finalDMG*0.01));
     }
+    public int getAbilityCounter() {
+        return abilityCounter;
+    }
+
+    public void incrementAbilityCounter() {
+        abilityCounter++;
+    }
+
 }
